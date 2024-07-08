@@ -44,8 +44,9 @@ function PlanetsPage() {
     indexOfLastPlanet
   );
   return (
-    <div className="mt-16 h-svh">
-      <div className="mb-4 ml-5">
+    <div className="my-16 h-max">
+      <h1 className="mb-4 text-center text-3xl font-bold">Star Wars planets</h1>
+      <div className="mb-4 flex justify-center items-center">
         <input
           type="text"
           value={searchTerm}

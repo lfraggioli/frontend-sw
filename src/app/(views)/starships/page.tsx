@@ -45,7 +45,10 @@ function StarshipsPage() {
 
   return (
     <div className="mt-16 h-max">
-      <div className="mb-4 ml-5">
+      <h1 className="mb-4 text-center text-3xl font-bold">
+        Star Wars starships
+      </h1>
+      <div className="mb-4 flex justify-center">
         <input
           type="text"
           value={searchTerm}
@@ -54,7 +57,8 @@ function StarshipsPage() {
           className="border text-slate-600 border-gray-300 rounded px-2 py-1"
         />
       </div>
-      <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div className="grid  sm:grid-cols-2 md:grid-cols-3 md:gap-6 sm:gap-3 px-10">
         {currentStarships.map((starship: any) => (
           <StarshipCard key={starship._id} starship={starship} />
         ))}

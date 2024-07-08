@@ -1,7 +1,7 @@
 "use client";
 import { fetchPeople, filterPeopleByGender } from "@/app/lib/people";
 import GenderFilter from "@/app/ui/GenderFilter";
-import PersonCard from "@/app/ui/PersonCard";
+import PersonCard from "@/app/ui/people/PersonCard";
 import React, { useState, useEffect } from "react";
 import Pagination from "@/app/ui/Pagination";
 import { Person } from "@/app/lib/types/Person";
@@ -58,19 +58,21 @@ function PeoplePage() {
   );
 
   return (
-    <div className="mt-16 h-full">
-      <div className="mb-4 ml-5">
+    <div className="my-16 h-full">
+      <h1 className="mb-4 text-center text-3xl font-bold">Star Wars people </h1>
+      <div className="flex flex-row items-center justify-center sm:gap-6 sm:justify-center sm:mx-auto  sm:flex-col gap-2 py-1">
         <input
           type="text"
           value={searchTerm}
           onChange={handleSearch}
           placeholder="Search by name..."
-          className="border text-slate-600 border-gray-300 rounded px-2 py-1"
+          className="text-zinc-600 border-gray-300 rounded px-7 py-1"
         />
-      </div>
-      <GenderFilter handleFilter={handleFilter} />
 
-      <div className="grid grid-cols-4 gap-4">
+        <GenderFilter handleFilter={handleFilter} />
+      </div>
+
+      <div className="grid px-10 md:grid-cols-4 sm:grid-cols-3 sm:gap-2 md:gap-4">
         {currentPeople.map((person: any) => (
           <PersonCard key={person._id} person={person} />
         ))}

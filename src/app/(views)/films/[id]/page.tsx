@@ -5,7 +5,7 @@ import React from "react";
 
 const DetailPage = ({ params }: { params: { id: string } }) => {
   return (
-    <div className="mt-16 h-screen">
+    <div className="mt-16 h-max">
       <FilmDetail id={params.id} />
     </div>
   );
