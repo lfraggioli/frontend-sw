@@ -1,40 +1,70 @@
-import React from "react";
-async function fetchStarships() {
-  const res = await fetch("http://localhost:3001/starships");
+"use client";
 
-  return res.json();
-}
-async function StarshipsPage() {
-  const starships = await fetchStarships();
+import { fetchStarships } from "@/app/lib/starships";
+import Starship from "@/app/lib/types/Starship";
+import Pagination from "@/app/ui/Pagination";
+import { StarshipCard } from "@/app/ui/starships/StarshipsCard";
+import React, { useEffect, useState } from "react";
+
+function StarshipsPage() {
+  const [starships, setStarships] = useState<Starship[]>([]);
+  const [filteredStarships, setFilteredStarships] = useState<Starship[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const filterStarships = (starships: Starship[], searchTerm: string) => {
+    return starships.filter((starship) =>
+      starship.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedStarships = await fetchStarships();
+      setStarships(fetchedStarships);
+      setFilteredStarships(filterStarships(fetchedStarships, searchTerm));
+    };
+    fetchData();
+  }, [searchTerm]);
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    setFilteredStarships(filterStarships(starships, event.target.value));
+  };
+
+  const handlePageClick = (page: number) => {
+    setCurrentPage(page);
+  };
+  const indexOfLastStarship = currentPage * itemsPerPage;
+  const indexOfFirstStarship = indexOfLastStarship - itemsPerPage;
+  const currentStarships = filteredStarships.slice(
+    indexOfFirstStarship,
+    indexOfLastStarship
+  );
+
   return (
-    <div className="mt-16 grid grid-cols-4 gap-4">
-      {starships.map((starship: any) => (
-        <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">{starship.name}</h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Model: {starship.starshipModel}
-          </p>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Manufacturer: {starship.manufacturer}
-          </p>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Cost in credits: {starship.cost_in_credits}
-          </p>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Length: {starship.length}
-          </p>
-
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Crew: {starship.crew}
-          </p>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Passengers: {starship.passengers}
-          </p>
-        </div>
-      ))}
+    <div className="mt-16 h-max">
+      <div className="mb-4 ml-5">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearch}
+          placeholder="Search by name..."
+          className="border text-slate-600 border-gray-300 rounded px-2 py-1"
+        />
+      </div>
+      <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
+        {currentStarships.map((starship: any) => (
+          <StarshipCard key={starship._id} starship={starship} />
+        ))}
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={filteredStarships.length}
+        onPageChange={handlePageClick}
+      />
     </div>
   );
 }

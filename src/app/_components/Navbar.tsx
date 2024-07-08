@@ -10,7 +10,7 @@ export const Navbar = () => {
             <Image
               className="relative "
               src="/Star-Wars-transparent-logo.png"
-              alt="Next.js Logo"
+              alt="star wars Logo"
               width={52}
               height={52}
               priority
@@ -18,12 +18,21 @@ export const Navbar = () => {
           </a>
         </div>
 
-        <button className="text-white font-semibold hover:text-slate-300 hover:scale-110 transition-transform duration-300 ease-linear ">
-          Docs
-        </button>
-        <button className="text-white font-semibold hover:text-slate-300 hover:scale-110 transition-transform duration-300 ease-linear ">
-          About
-        </button>
+        <a
+          className="text-slate-300 cursor-pointer font-semibold hover:text-slate-200  transition-transform duration-300 ease-linear "
+          href="/films"
+        >
+          Films
+        </a>
+        <a className="text-slate-300 cursor-pointer font-semibold hover:text-slate-200  transition-transform duration-300 ease-linear ">
+          People
+        </a>
+        <a className="text-slate-300 cursor-pointer font-semibold hover:text-slate-200  transition-transform duration-300 ease-linear ">
+          Starships
+        </a>
+        <a className="text-slate-300 cursor-pointer font-semibold hover:text-slate-200  transition-transform duration-300 ease-linear ">
+          Planets
+        </a>
       </div>
     </nav>
   );
